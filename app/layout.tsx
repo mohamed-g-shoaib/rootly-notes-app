@@ -9,8 +9,8 @@ import { StorageModeProvider } from "@/components/storage-mode-provider";
 import { LocalStorageWarning } from "@/components/local-storage-warning";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { RootlyLogo } from "@/components/rootly-logo";
 import Link from "next/link";
-import Image from "next/image";
 import { Toaster } from "@/components/ui/sonner";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -50,18 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     icons: {
-      icon: [
-        {
-          url: "/favicon-dark.svg",
-          type: "image/svg+xml",
-          media: "(prefers-color-scheme: light)",
-        },
-        {
-          url: "/favicon-light.svg",
-          type: "image/svg+xml",
-          media: "(prefers-color-scheme: dark)",
-        },
-      ],
+      icon: "/favicon.ico",
       apple: "/apple-touch-icon.png",
     },
     manifest: "/site.webmanifest",
@@ -142,24 +131,7 @@ html {
               <header className="sticky top-0 z-50 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
                 <div className="container mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
                   <Link href="/" className="flex items-center gap-2 shrink-0">
-                    {/* Light-on-dark logo for dark mode */}
-                    <Image
-                      src="/favicon-light.svg"
-                      alt="Rootly logo"
-                      width={32}
-                      height={32}
-                      className="hidden dark:block"
-                      priority
-                    />
-                    {/* Dark-on-light logo for light mode */}
-                    <Image
-                      src="/favicon-dark.svg"
-                      alt="Rootly logo"
-                      width={32}
-                      height={32}
-                      className="block dark:hidden"
-                      priority
-                    />
+                    <RootlyLogo size={32} className="text-foreground" />
                     <span className="font-semibold tracking-tight text-lg md:text-xl hidden sm:inline">
                       Rootly
                     </span>

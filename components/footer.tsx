@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Github, Linkedin } from "lucide-react";
+import { RootlyLogo } from "@/components/rootly-logo";
 
 export function Footer() {
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL || "#";
@@ -28,20 +28,7 @@ export function Footer() {
           <div className="flex flex-col gap-3 justify-between min-h-full">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <Image
-                  src="/favicon-light.svg"
-                  alt="Rootly logo"
-                  width={32}
-                  height={32}
-                  className="hidden dark:block"
-                />
-                <Image
-                  src="/favicon-dark.svg"
-                  alt="Rootly logo"
-                  width={32}
-                  height={32}
-                  className="block dark:hidden"
-                />
+                <RootlyLogo size={32} className="text-foreground" />
                 <span className="font-semibold tracking-tight text-lg">
                   Rootly Notes
                 </span>
