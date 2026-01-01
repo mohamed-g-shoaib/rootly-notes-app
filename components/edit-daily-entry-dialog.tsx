@@ -1,57 +1,86 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { TimeInput } from "@/components/ui/time-input"
-import { Loader2, Calendar as CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
-import type { DailyEntry } from "@/lib/types"
-import { useDailyEntryMutations } from "@/hooks/use-mutations"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { TimeInput } from "@/components/ui/time-input";
+import { Loader2, Calendar as CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import type { DailyEntry } from "@/lib/types";
+import { useDailyEntryMutations } from "@/hooks/use-mutations";
 
 const editDailyEntrySchema = z.object({
   date: z.string().min(1, "Date is required"),
-  study_time: z.preprocess(
-    (v) => {
-      if (typeof v === "string") {
-        if (v.trim() === "") return undefined
-        const n = Number(v)
-        return Number.isNaN(n) ? undefined : n
-      }
-      return v
-    },
-    z
-      .number({ required_error: "Study time is required" })
-      .min(0, "Study time must be positive")
-      .max(1440, "Study time cannot exceed 24 hours"),
-  ),
+  study_time: z.preprocess((v) => {
+    if (typeof v === "string") {
+      if (v.trim() === "") return undefined;
+      const n = Number(v);
+      return Number.isNaN(n) ? undefined : n;
+    }
+    return v;
+  }, z.number({ required_error: "Study time is required" }).min(0, "Study time must be positive").max(1440, "Study time cannot exceed 24 hours")),
   mood: z.coerce.number().min(1).max(5),
-  notes: z.string().max(500, "Notes must be less than 500 characters").optional(),
-})
+  notes: z
+    .string()
+    .max(500, "Notes must be less than 500 characters")
+    .optional(),
+});
 
-type EditDailyEntryFormData = z.infer<typeof editDailyEntrySchema>
+type EditDailyEntryFormData = z.infer<typeof editDailyEntrySchema>;
 
 interface EditDailyEntryDialogProps {
-  entry: DailyEntry
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  entry: DailyEntry;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export function EditDailyEntryDialog({ entry, open, onOpenChange }: EditDailyEntryDialogProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const { updateDailyEntry } = useDailyEntryMutations()
+export function EditDailyEntryDialog({
+  entry,
+  open,
+  onOpenChange,
+}: EditDailyEntryDialogProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { updateDailyEntry } = useDailyEntryMutations();
 
-  const form = useForm<z.input<typeof editDailyEntrySchema>, any, EditDailyEntryFormData>({
+  const form = useForm<
+    z.input<typeof editDailyEntrySchema>,
+    any,
+    EditDailyEntryFormData
+  >({
     resolver: zodResolver(editDailyEntrySchema),
     defaultValues: {
       date: entry.date,
@@ -59,44 +88,46 @@ export function EditDailyEntryDialog({ entry, open, onOpenChange }: EditDailyEnt
       mood: entry.mood,
       notes: entry.notes,
     },
-  })
+  });
 
   // Reset form when entry changes or when dialog opens (avoid stale unsaved input)
   useEffect(() => {
-    if (!open && form.formState.isDirty) return
+    if (!open && form.formState.isDirty) return;
     form.reset({
       date: entry.date,
       study_time: entry.study_time,
       mood: entry.mood,
       notes: entry.notes,
-    })
-  }, [entry, open, form])
+    });
+  }, [entry, open, form]);
 
   const onSubmit = async (data: EditDailyEntryFormData) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
       await updateDailyEntry(entry.id, {
         date: data.date,
         study_time: data.study_time,
-        mood: data.mood,
+        mood: data.mood as 1 | 2 | 3 | 4 | 5,
         notes: data.notes || "",
-      })
+      });
 
-      onOpenChange(false)
+      onOpenChange(false);
     } catch (error) {
       // Error is handled by the mutation hook
-      console.error("Error updating daily tracking:", error)
+      console.error("Error updating daily tracking:", error);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Edit Daily Tracking</DialogTitle>
-          <DialogDescription>Update your daily study progress and mood.</DialogDescription>
+          <DialogDescription>
+            Update your daily study progress and mood.
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -115,14 +146,18 @@ export function EditDailyEntryDialog({ entry, open, onOpenChange }: EditDailyEnt
                           className="w-full justify-start text-left font-normal"
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {field.value ? format(new Date(field.value), "PPP") : "Pick a date"}
+                          {field.value
+                            ? format(new Date(field.value), "PPP")
+                            : "Pick a date"}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value ? new Date(field.value) : undefined}
+                        selected={
+                          field.value ? new Date(field.value) : undefined
+                        }
                         onSelect={(date) =>
                           field.onChange(date ? format(date, "yyyy-MM-dd") : "")
                         }
@@ -142,7 +177,7 @@ export function EditDailyEntryDialog({ entry, open, onOpenChange }: EditDailyEnt
                 <FormItem>
                   <FormControl>
                     <TimeInput
-                      value={field.value}
+                      value={field.value as number}
                       onChange={field.onChange}
                     />
                   </FormControl>
@@ -158,7 +193,9 @@ export function EditDailyEntryDialog({ entry, open, onOpenChange }: EditDailyEnt
                 <FormItem>
                   <FormLabel>Mood</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(Number.parseInt(value))}
+                    onValueChange={(value) =>
+                      field.onChange(Number.parseInt(value))
+                    }
                     value={field.value.toString()}
                   >
                     <FormControl>
@@ -198,11 +235,17 @@ export function EditDailyEntryDialog({ entry, open, onOpenChange }: EditDailyEnt
             />
 
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onOpenChange(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                {isSubmitting && (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                )}
                 Save Changes
               </Button>
             </DialogFooter>
@@ -210,5 +253,5 @@ export function EditDailyEntryDialog({ entry, open, onOpenChange }: EditDailyEnt
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
