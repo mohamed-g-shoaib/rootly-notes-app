@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
   Dialog,
   DialogContent,
@@ -12,51 +12,69 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { DialogFooter } from "@/components/ui/dialog"
-import { TimeInput } from "@/components/ui/time-input"
-import { format } from "date-fns"
-import { Plus, Loader2 } from "lucide-react"
-import { useEditingGuard } from "@/hooks/use-editing-guard"
-import { useDailyEntryMutations } from "@/hooks/use-mutations"
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { DialogFooter } from "@/components/ui/dialog";
+import { TimeInput } from "@/components/ui/time-input";
+import { format } from "date-fns";
+import { Plus, Loader2 } from "lucide-react";
+import { useEditingGuard } from "@/hooks/use-editing-guard";
+import { useDailyEntryMutations } from "@/hooks/use-mutations";
 
 const dailyEntrySchema = z.object({
   date: z.string().min(1, "Date is required"),
-  study_time: z.preprocess(
-    (v) => {
-      if (typeof v === "string") {
-        if (v.trim() === "") return undefined
-        const n = Number(v)
-        return Number.isNaN(n) ? undefined : n
-      }
-      return v
-    },
-    z
-      .number({ required_error: "Study time is required" })
-      .min(0, "Study time must be positive")
-      .max(1440, "Study time cannot exceed 24 hours"),
-  ),
+  study_time: z.preprocess((v) => {
+    if (typeof v === "string") {
+      if (v.trim() === "") return undefined;
+      const n = Number(v);
+      return Number.isNaN(n) ? undefined : n;
+    }
+    return v;
+  }, z.number({ required_error: "Study time is required" }).min(0, "Study time must be positive").max(1440, "Study time cannot exceed 24 hours")),
   mood: z.coerce.number().min(1).max(5),
-  notes: z.string().max(500, "Notes must be less than 500 characters").optional(),
-})
+  notes: z
+    .string()
+    .max(500, "Notes must be less than 500 characters")
+    .optional(),
+});
 
-type DailyEntryFormData = z.infer<typeof dailyEntrySchema>
+type DailyEntryFormData = z.infer<typeof dailyEntrySchema>;
 
 export function AddDailyEntryDialog() {
-  const [open, setOpen] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const { guardAction } = useEditingGuard()
-  const { createDailyEntry } = useDailyEntryMutations()
+  const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { guardAction } = useEditingGuard();
+  const { createDailyEntry } = useDailyEntryMutations();
 
-  const form = useForm<z.input<typeof dailyEntrySchema>, any, DailyEntryFormData>({
+  const form = useForm<
+    z.input<typeof dailyEntrySchema>,
+    any,
+    DailyEntryFormData
+  >({
     resolver: zodResolver(dailyEntrySchema),
     defaultValues: {
       date: new Date().toISOString().split("T")[0],
@@ -64,27 +82,27 @@ export function AddDailyEntryDialog() {
       mood: 3,
       notes: "",
     },
-  })
+  });
 
   const onSubmit = async (data: DailyEntryFormData) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
       await createDailyEntry({
         date: data.date,
         study_time: data.study_time,
-        mood: data.mood,
+        mood: data.mood as 1 | 2 | 3 | 4 | 5,
         notes: data.notes || "",
-      })
+      });
 
-      form.reset()
-      setOpen(false)
+      form.reset();
+      setOpen(false);
     } catch (error) {
       // Error is handled by the mutation hook
-      console.error("Error adding daily tracking:", error)
+      console.error("Error adding daily tracking:", error);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -93,8 +111,8 @@ export function AddDailyEntryDialog() {
           className="w-full sm:w-auto"
           onClick={(e) => {
             if (!open) {
-              guardAction("add daily tracking", () => setOpen(true))
-              e.preventDefault()
+              guardAction("add daily tracking", () => setOpen(true));
+              e.preventDefault();
             }
           }}
         >
@@ -105,7 +123,9 @@ export function AddDailyEntryDialog() {
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Add Daily Tracking</DialogTitle>
-          <DialogDescription>Record your daily study progress and mood.</DialogDescription>
+          <DialogDescription>
+            Record your daily study progress and mood.
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -124,14 +144,18 @@ export function AddDailyEntryDialog() {
                           className="w-full justify-start text-left font-normal"
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {field.value ? format(new Date(field.value), "PPP") : "Pick a date"}
+                          {field.value
+                            ? format(new Date(field.value), "PPP")
+                            : "Pick a date"}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value ? new Date(field.value) : undefined}
+                        selected={
+                          field.value ? new Date(field.value) : undefined
+                        }
                         onSelect={(date) =>
                           field.onChange(date ? format(date, "yyyy-MM-dd") : "")
                         }
@@ -151,7 +175,7 @@ export function AddDailyEntryDialog() {
                 <FormItem>
                   <FormControl>
                     <TimeInput
-                      value={field.value}
+                      value={field.value as number}
                       onChange={field.onChange}
                     />
                   </FormControl>
@@ -167,7 +191,9 @@ export function AddDailyEntryDialog() {
                 <FormItem>
                   <FormLabel>Mood</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(Number.parseInt(value))}
+                    onValueChange={(value) =>
+                      field.onChange(Number.parseInt(value))
+                    }
                     defaultValue={field.value.toString()}
                   >
                     <FormControl>
@@ -207,11 +233,17 @@ export function AddDailyEntryDialog() {
             />
 
             <DialogFooter className="gap-3 sm:gap-2">
-              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                {isSubmitting && (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                )}
                 Add Entry
               </Button>
             </DialogFooter>
@@ -219,5 +251,5 @@ export function AddDailyEntryDialog() {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
