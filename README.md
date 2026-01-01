@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Rootly Notes - Your learning journey tracker" src="public/rootly-banner.jpg" width="1200" />
+  <img alt="Rootly Notes - Your learning journey tracker" src="app/opengraph-image.png" width="1200" />
 </p>
 
 <p align="center">
