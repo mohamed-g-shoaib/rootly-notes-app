@@ -11,11 +11,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { supabase } from "@/lib/supabase/client"
 import { Loader2, AlertTriangle } from "lucide-react"
-import { toast } from "sonner"
 import { formatStudyTime } from "@/lib/time-utils"
 import type { DailyEntry } from "@/lib/types"
+import { useDailyEntryMutations } from "@/hooks/use-mutations"
 
 interface DeleteDailyEntryDialogProps {
   entry: DailyEntry
@@ -25,26 +24,16 @@ interface DeleteDailyEntryDialogProps {
 
 export function DeleteDailyEntryDialog({ entry, open, onOpenChange }: DeleteDailyEntryDialogProps) {
   const [isDeleting, setIsDeleting] = useState(false)
-  const router = useRouter()
+  const { deleteDailyEntry } = useDailyEntryMutations()
 
   const handleDelete = async () => {
     setIsDeleting(true)
     try {
-      const { error } = await supabase.from("daily_entries").delete().eq("id", entry.id)
-
-      if (error) throw error
-
-      toast.success("Daily entry deleted successfully", {
-        description: "The entry has been permanently removed.",
-      })
-
+      await deleteDailyEntry(entry.id)
       onOpenChange(false)
-      router.refresh()
     } catch (error) {
-      console.error("Error deleting daily entry:", error)
-      toast.error("Error deleting daily entry", {
-        description: "Please try again.",
-      })
+      // Error is handled by the mutation hook
+      console.error("Error deleting daily tracking:", error)
     } finally {
       setIsDeleting(false)
     }
@@ -56,10 +45,10 @@ export function DeleteDailyEntryDialog({ entry, open, onOpenChange }: DeleteDail
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-destructive" />
-            Delete Daily Entry
+            Delete Daily Tracking
           </DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this daily entry? This action cannot be undone.
+            Are you sure you want to delete this daily tracking? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
 

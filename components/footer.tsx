@@ -1,40 +1,104 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Github, Linkedin } from "lucide-react"
 
 export function Footer() {
-  const year = new Date().getFullYear()
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL || "#"
   const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || "#"
+  const currentYear = new Date().getFullYear()
+
+  const appLinks = [
+    { name: "Overview", href: "/overview" },
+    { name: "Notes", href: "/notes" },
+    { name: "Courses", href: "/courses" },
+    { name: "Daily Tracking", href: "/daily-tracking" },
+    { name: "Review", href: "/review" },
+  ]
+
+  const resourceLinks = [
+    { name: "Learn Rootly", href: "/learn-rootly" },
+    { name: "About", href: "/about" },
+  ]
 
   return (
-    <footer className="border-t">
-      <div className="container mx-auto max-w-6xl px-4 py-6">
-        <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-          <span>© {year} Rootly Notes</span>
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="hover:text-foreground transition-colors"
-          >
-            <Github className="h-4 w-4" />
-          </a>
-          <a
-            href={linkedinUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="hover:text-foreground transition-colors"
-          >
-            <Linkedin className="h-4 w-4" />
-          </a>
-          <Link href="/about" className="hover:text-foreground transition-colors">
-            About
-          </Link>
-          <Link href="/how-rootly-works" className="hover:text-foreground transition-colors">
-            How Rootly Works
-          </Link>
+    <footer className="bg-background">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
+        {/* Main Footer: Brand + Navigation */}
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+          <div className="flex flex-col gap-3 justify-between min-h-full">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/favicon-light.svg"
+                  alt="Rootly logo"
+                  width={32}
+                  height={32}
+                  className="hidden dark:block"
+                />
+                <Image
+                  src="/favicon-dark.svg"
+                  alt="Rootly logo"
+                  width={32}
+                  height={32}
+                  className="block dark:hidden"
+                />
+                <span className="font-semibold tracking-tight text-lg">Rootly Notes</span>
+              </div>
+              <p className="text-sm text-muted-foreground max-w-md">
+                Your learning journey tracker. Capture questions, track progress, and stay consistent.
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              © {currentYear} Rootly Notes. All rights reserved.
+            </p>
+          </div>
+          <nav className="flex flex-col sm:flex-row gap-8" aria-label="Footer navigation">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-sm font-semibold text-foreground mb-1">App</h2>
+              {appLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <h2 className="text-sm font-semibold text-foreground mb-1">Resources</h2>
+              {resourceLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <h2 className="text-sm font-semibold text-foreground mb-1">Social</h2>
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
+              >
+                <Github className="h-4 w-4" />
+                <span>GitHub</span>
+              </a>
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
+              >
+                <Linkedin className="h-4 w-4" />
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </nav>
         </div>
       </div>
     </footer>

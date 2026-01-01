@@ -1,62 +1,84 @@
-import { createClient } from "@/lib/supabase/server"
-import { ReviewSession } from "@/components/review-session"
-import { ReviewControls } from "@/components/review-controls"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { EmptyState } from "@/components/empty-state"
-import { FileQuestion } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Brain, Flag, Shuffle } from "lucide-react"
-import Link from "next/link"
+"use client";
 
-interface ReviewPageProps {
-  searchParams: Promise<{
-    course?: string
-    flagged?: string
-    shuffle?: string
-    limit?: string
-  }>
-}
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { useMemo, useState, useEffect } from "react";
+import { ReviewSession } from "@/components/review-session";
+import { SessionSummary } from "@/components/review-session";
+import { ReviewControls } from "@/components/review-controls";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/empty-state";
+import { FileQuestion } from "lucide-react";
+import { Brain, Flag, Shuffle } from "lucide-react";
+import { useNotes } from "@/hooks/use-data";
+import { useCourses } from "@/hooks/use-data";
+import { ReviewSkeleton } from "@/components/loading-skeletons";
 
-export default async function ReviewPage({ searchParams }: ReviewPageProps) {
-  const supabase = await createClient()
-  const params = await searchParams
+function ReviewPageContent() {
+  const searchParams = useSearchParams();
+  const course = searchParams.get("course") || undefined;
+  const flagged = searchParams.get("flagged");
+  const shuffle = (searchParams.get("shuffle") ?? "true") === "true";
+  const limit = Math.max(
+    1,
+    Math.min(100, Number.parseInt(searchParams.get("limit") || "20"))
+  );
 
-  const limit = Math.max(1, Math.min(100, Number.parseInt(params.limit || "20")))
-  const shuffle = (params.shuffle ?? "true") === "true"
-  const SAMPLE_SIZE = Math.max(100, Math.min(500, limit * 5))
+  const filters = useMemo(
+    () => ({
+      courseId: course,
+      flagged: flagged === "true" ? true : undefined,
+    }),
+    [course, flagged]
+  );
 
-  // Build base query for practice
-  let query = supabase
-    .from("notes")
-    .select(`
-      *,
-      course:courses(title, instructor)
-    `)
-    .order("updated_at", { ascending: false })
+  const { notes, isLoading } = useNotes(filters);
+  const { courses } = useCourses();
 
-  if (params.course) {
-    query = query.eq("course_id", params.course)
+  // Cache session notes to prevent unmounting during refetches
+  const [cachedSessionNotes, setCachedSessionNotes] = useState<typeof notes>(
+    []
+  );
+
+  // Session completion state (persists across ReviewSession unmounts)
+  const [showSummary, setShowSummary] = useState(false);
+  const [sessionData, setSessionData] = useState<{
+    responses: { noteId: string; previous: number; next: number }[];
+    startedAt: number | null;
+  }>({ responses: [], startedAt: null });
+
+  // Prepare session notes
+  const sessionNotes = useMemo(() => {
+    // If we have cached notes, keep using them (session is active)
+    if (cachedSessionNotes.length > 0) {
+      return cachedSessionNotes;
+    }
+
+    // Calculate new session notes
+    const filtered = shuffle
+      ? [...notes].sort(() => Math.random() - 0.5)
+      : notes;
+    const sliced = filtered.slice(0, limit);
+
+    // Cache them if we have notes
+    if (sliced.length > 0) {
+      setCachedSessionNotes(sliced);
+    }
+
+    return sliced;
+  }, [notes, shuffle, limit, cachedSessionNotes]);
+
+  // Clear cache when filters change
+  useEffect(() => {
+    setCachedSessionNotes([]);
+    setShowSummary(false);
+  }, [course, flagged, shuffle, limit]);
+
+  const flaggedInSession = sessionNotes.filter((n) => n.flag).length;
+
+  if (isLoading) {
+    return <ReviewSkeleton />;
   }
-  if (params.flagged === "true") {
-    query = query.eq("flag", true)
-  }
-
-  // Apply a server-side limit to avoid fetching all rows
-  const effectiveLimit = shuffle ? SAMPLE_SIZE : limit
-  const { data: fetchedNotes, error } = await query.limit(effectiveLimit)
-  if (error) {
-    console.error("Error fetching notes for practice:", error)
-  }
-
-  const notes = fetchedNotes || []
-  const sessionNotes = (shuffle ? [...notes].sort(() => Math.random() - 0.5) : notes).slice(0, limit)
-  const flaggedInSession = sessionNotes.filter((n) => n.flag).length
-
-  // Fetch courses for controls
-  const { data: courses } = await supabase
-    .from("courses")
-    .select("id, title, instructor")
-    .order("title")
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,19 +86,19 @@ export default async function ReviewPage({ searchParams }: ReviewPageProps) {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Practice Session</h1>
-            <p className="text-muted-foreground">Quick quiz on your notes. Start anytime.</p>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Practice Session
+            </h1>
+            <p className="text-muted-foreground">
+              Quick quiz on your notes. Start anytime.
+            </p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
-              <Link href="/notes">Manage Notes</Link>
-            </Button>
-          </div>
+          <div />
         </div>
 
         {/* Quick Controls */}
         <div className="mb-6">
-          <ReviewControls courses={courses || []} />
+          <ReviewControls courses={courses} />
         </div>
 
         {/* Session Summary */}
@@ -109,24 +131,56 @@ export default async function ReviewPage({ searchParams }: ReviewPageProps) {
               <Shuffle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{shuffle ? "Shuffled" : "Fixed"}</div>
+              <div className="text-2xl font-bold">
+                {shuffle ? "Shuffled" : "Fixed"}
+              </div>
               <p className="text-xs text-muted-foreground">Practice order</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Practice Session */}
-        {sessionNotes.length > 0 ? (
-          <ReviewSession notes={sessionNotes} />
+        {showSummary ? (
+          <SessionSummary
+            notes={
+              cachedSessionNotes.length > 0 ? cachedSessionNotes : sessionNotes
+            }
+            responses={sessionData.responses}
+            startedAt={sessionData.startedAt}
+            onRestart={() => {
+              setShowSummary(false);
+              setCachedSessionNotes([]); // Clear cache to start fresh
+            }}
+            onClose={() => {
+              setShowSummary(false);
+              setCachedSessionNotes([]); // Clear cache to return to empty state
+            }}
+          />
+        ) : sessionNotes.length > 0 ? (
+          <ReviewSession
+            notes={sessionNotes}
+            onComplete={(data) => {
+              setSessionData(data);
+              setShowSummary(true);
+            }}
+          />
         ) : (
           <EmptyState
             title="No notes available"
             description="Add notes first, or adjust filters to include more content for practice."
             icon={<FileQuestion className="h-6 w-6 text-muted-foreground" />}
-            primaryAction={{ label: 'Add Notes', href: '/notes' }}
+            primaryAction={{ label: "Add Notes", href: "/notes" }}
           />
         )}
       </div>
     </div>
-  )
+  );
+}
+
+export default function ReviewPage() {
+  return (
+    <Suspense fallback={<ReviewSkeleton />}>
+      <ReviewPageContent />
+    </Suspense>
+  );
 }

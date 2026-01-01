@@ -25,7 +25,16 @@ export async function middleware(request: NextRequest) {
     },
   )
 
-  // Since this is a single-user learning tracker, no authentication is needed
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  const url = new URL(request.url)
+  const publicPaths = ["/", "/login", "/auth/callback", "/about", "/how-it-works", "/learn-rootly"]
+  const isPublic = publicPaths.some((p) => url.pathname === p || url.pathname.startsWith(p + "/"))
+
+  // Allow unauthenticated access - users can use localStorage
+  // No redirect needed
 
   return supabaseResponse
 }
