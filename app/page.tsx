@@ -134,11 +134,7 @@ export default async function HomePage() {
             <Card
               key={f.title}
               className="group relative overflow-hidden p-0 ring-1 ring-border transition-all duration-200 
-              hover:ring-primary/30 
-              before:absolute before:inset-0 before:rounded-[inherit] 
-              before:bg-[radial-gradient(ellipse_at_center,theme(colors.primary/20),transparent_62%)] 
-              before:opacity-0 before:transition-opacity before:duration-500 
-              group-hover:before:opacity-100"
+              hover:ring-primary/30"
             >
               <div className="aspect-[16/9] w-full overflow-hidden bg-muted/30 flex items-center [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <div className="w-full h-full overflow-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
