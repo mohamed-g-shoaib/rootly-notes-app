@@ -113,7 +113,7 @@ export function EditNoteDialog({
         answer: data.answer || "",
         code_snippet: data.code_snippet || null,
         code_language: data.code_language || "plaintext",
-        understanding_level: data.understanding_level,
+        understanding_level: data.understanding_level as 1 | 2 | 3 | 4 | 5,
         flag: data.flag,
       });
 
