@@ -1,0 +1,46 @@
+# Rootly Notes
+
+> Your learning journey tracker - A modern web application for tracking courses, notes, and daily study progress.
+
+## About
+
+Rootly Notes is a personal learning management system designed to help students and lifelong learners track their educational journey. It combines course management, note-taking with Q&A format, daily study tracking with mood logging, and visual analytics.
+
+## Key Features
+
+- **Course Management**: Organize courses with instructors, topics, and resource links
+- **Smart Notes**: Q&A format notes with code snippets, syntax highlighting, and understanding levels (1-5)
+- **Daily Tracking**: Log study time and mood to monitor learning patterns
+- **Visual Analytics**: Charts showing study time, mood trends, understanding progress
+- **Review Mode**: Spaced repetition review system for flagged notes
+- **Cloud Sync**: Optional Supabase authentication for cross-device sync
+- **Offline First**: Full localStorage support for privacy-focused users
+
+## Links
+
+- Homepage: /
+- Overview Dashboard: /overview
+- Notes: /notes
+- Courses: /courses
+- Daily Tracking: /daily-tracking
+- Review Mode: /review
+- Learn More: /learn-rootly
+- About: /about
+
+## Technical Stack
+
+- Next.js 15 with App Router
+- React 19
+- TypeScript
+- Tailwind CSS
+- Supabase (optional auth)
+- Recharts for analytics
+- shadcn/ui components
+
+## Full Documentation
+
+For comprehensive details, see: /llms-full.txt
+
+## Contact
+
+This is an open-source project. Visit the repository for contributions and issues.
