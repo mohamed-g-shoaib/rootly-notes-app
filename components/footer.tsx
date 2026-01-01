@@ -1,11 +1,11 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Github, Linkedin } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { Github, Linkedin } from "lucide-react";
 
 export function Footer() {
-  const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL || "#"
-  const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || "#"
-  const currentYear = new Date().getFullYear()
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL || "#";
+  const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || "#";
+  const currentYear = new Date().getFullYear();
 
   const appLinks = [
     { name: "Overview", href: "/overview" },
@@ -13,12 +13,12 @@ export function Footer() {
     { name: "Courses", href: "/courses" },
     { name: "Daily Tracking", href: "/daily-tracking" },
     { name: "Review", href: "/review" },
-  ]
+  ];
 
   const resourceLinks = [
     { name: "Learn Rootly", href: "/learn-rootly" },
     { name: "About", href: "/about" },
-  ]
+  ];
 
   return (
     <footer className="bg-background">
@@ -42,19 +42,38 @@ export function Footer() {
                   height={32}
                   className="block dark:hidden"
                 />
-                <span className="font-semibold tracking-tight text-lg">Rootly Notes</span>
+                <span className="font-semibold tracking-tight text-lg">
+                  Rootly Notes
+                </span>
               </div>
               <p className="text-sm text-muted-foreground max-w-md">
-                Your learning journey tracker. Capture questions, track progress, and stay consistent.
+                Your learning journey tracker. Capture questions, track
+                progress, and stay consistent.
               </p>
             </div>
             <p className="text-sm text-muted-foreground">
               © {currentYear} Rootly Notes. All rights reserved.
             </p>
+            <p className="text-sm text-muted-foreground">
+              Open sourced under{" "}
+              <a
+                href="https://www.devloop.software/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-foreground hover:underline"
+              >
+                @Devloop
+              </a>
+            </p>
           </div>
-          <nav className="flex flex-col sm:flex-row gap-8" aria-label="Footer navigation">
+          <nav
+            className="flex flex-col sm:flex-row gap-8"
+            aria-label="Footer navigation"
+          >
             <div className="flex flex-col gap-2">
-              <h2 className="text-sm font-semibold text-foreground mb-1">App</h2>
+              <h2 className="text-sm font-semibold text-foreground mb-1">
+                App
+              </h2>
               {appLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -66,7 +85,9 @@ export function Footer() {
               ))}
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-sm font-semibold text-foreground mb-1">Resources</h2>
+              <h2 className="text-sm font-semibold text-foreground mb-1">
+                Resources
+              </h2>
               {resourceLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -78,7 +99,9 @@ export function Footer() {
               ))}
             </div>
             <div className="flex flex-col gap-2">
-              <h2 className="text-sm font-semibold text-foreground mb-1">Social</h2>
+              <h2 className="text-sm font-semibold text-foreground mb-1">
+                Social
+              </h2>
               <a
                 href={githubUrl}
                 target="_blank"
@@ -102,7 +125,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
-
