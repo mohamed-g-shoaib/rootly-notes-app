@@ -14,7 +14,8 @@ import Link from "next/link";
 import { Toaster } from "@/components/ui/sonner";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://rootly-notes-app.vercel.app";
   const title = "Rootly Notes";
   const description = "Your learning journey tracker";
 
