@@ -148,25 +148,75 @@ export function getSeedDailyEntries(): Omit<
   const entries: Omit<DailyEntry, "id" | "created_at" | "updated_at">[] = [];
   const now = new Date();
 
-  // Create 4 varied entries over the past week
+  // Create 12 varied entries spread across the last 21 days for better chart visualization
   const entryData = [
+    {
+      daysAgo: 20,
+      time: 40,
+      mood: 3,
+      notes:
+        "First day setting up the development environment. A bit overwhelming.",
+    },
+    {
+      daysAgo: 18,
+      time: 55,
+      mood: 4,
+      notes: "Started learning React basics. JSX syntax makes sense now.",
+    },
+    {
+      daysAgo: 16,
+      time: 45,
+      mood: 4,
+      notes: "Explored useState hook. State management is clicking!",
+    },
+    {
+      daysAgo: 14,
+      time: 30,
+      mood: 2,
+      notes: "Struggled with useEffect. Need to revisit dependency arrays.",
+    },
+    {
+      daysAgo: 12,
+      time: 70,
+      mood: 5,
+      notes: "Breakthrough! useEffect makes sense now. Built a todo app.",
+    },
+    {
+      daysAgo: 10,
+      time: 50,
+      mood: 4,
+      notes: "Started Next.js App Router. File-based routing is elegant.",
+    },
+    {
+      daysAgo: 8,
+      time: 65,
+      mood: 5,
+      notes:
+        "Server Components are amazing! Built my first full-stack feature.",
+    },
     {
       daysAgo: 6,
       time: 45,
       mood: 4,
-      notes: "Started learning React hooks. useState is clearer now.",
+      notes: "Started MongoDB basics. Document model is intuitive.",
     },
     {
-      daysAgo: 4,
-      time: 60,
-      mood: 5,
-      notes: "Built my first Next.js page. Server Components are powerful!",
-    },
-    {
-      daysAgo: 2,
+      daysAgo: 5,
       time: 35,
       mood: 3,
       notes: "MongoDB indexes are tricky. Need to review aggregation pipeline.",
+    },
+    {
+      daysAgo: 3,
+      time: 60,
+      mood: 4,
+      notes: "Built my first Next.js API route with MongoDB connection.",
+    },
+    {
+      daysAgo: 1,
+      time: 55,
+      mood: 5,
+      notes: "Connected everything together. Full-stack app is working!",
     },
     {
       daysAgo: 0,
