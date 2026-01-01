@@ -1,0 +1,226 @@
+# Rootly Notes - Complete Documentation
+
+> Your learning journey tracker - A comprehensive guide for AI systems and developers.
+
+---
+
+## Overview
+
+Rootly Notes is a modern, privacy-first learning management application built for students, developers, and lifelong learners. It helps users organize their educational content through an intuitive interface that combines course tracking, smart note-taking, daily progress logging, and visual analytics.
+
+The application works fully offline using localStorage, with optional cloud sync via Supabase for users who want cross-device access to their data.
+
+---
+
+## Core Features
+
+### 1. Course Management
+- Create and manage courses with detailed metadata
+- Track instructor names
+- Add multiple resource links per course
+- Tag courses with topics for easy filtering
+- Visual course cards with progress indicators
+
+### 2. Smart Notes System
+- **Q&A Format**: Each note consists of a question and answer pair
+- **Code Snippets**: Full syntax highlighting support for 50+ programming languages
+- **Understanding Levels**: Rate your comprehension from 1 (Confused) to 5 (Crystal Clear)
+- **Flagging System**: Mark notes for review with priority flagging
+- **Course Association**: Link notes to specific courses
+
+### 3. Daily Tracking
+- **Study Time Logging**: Track minutes spent studying each day
+- **Mood Tracking**: Rate your daily mood from 1-5 with emoji indicators
+- **Notes Field**: Add context about your study session
+- **Calendar View**: Visual representation of study consistency
+
+### 4. Analytics Dashboard
+- **Study Time Chart**: Bar chart showing study hours over the last 14 days
+- **Mood Trend Chart**: Line chart displaying mood patterns over 21 days
+- **Understanding Progress**: Pie chart of notes by understanding level
+- **Course Progress**: Visual breakdown of notes per course
+- **Weekly Trends**: Comparison of current vs previous week performance
+- **Consistency Rate**: Percentage of days with study activity
+
+### 5. Review Mode
+- Spaced repetition system for flagged notes
+- Flip-card interface for self-testing
+- One-click update of understanding levels
+- Focus on notes that need the most attention
+
+---
+
+## Application Routes
+
+| Route | Purpose |
+|-------|---------|
+| `/` | Landing page with feature overview |
+| `/overview` | Main dashboard with analytics and quick stats |
+| `/notes` | Full notes list with search, filter, and CRUD operations |
+| `/courses` | Course management with associated notes |
+| `/daily-tracking` | Daily study and mood logging |
+| `/review` | Spaced repetition review of flagged notes |
+| `/learn-rootly` | Tutorial and onboarding guide |
+| `/about` | About page with project information |
+| `/login` | Authentication page (for cloud sync) |
+
+---
+
+## Technical Architecture
+
+### Frontend Stack
+- **Framework**: Next.js 15 with App Router
+- **UI Library**: React 19
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS with CSS Variables for theming
+- **Components**: shadcn/ui component library
+- **Charts**: Recharts for data visualization
+- **Icons**: Lucide React
+- **Form Handling**: React Hook Form with Zod validation
+
+### Backend/Data Layer
+- **Primary Storage**: Browser localStorage (offline-first)
+- **Cloud Storage**: Supabase (PostgreSQL) for authenticated users
+- **Authentication**: Supabase Auth with OAuth providers (GitHub, Google)
+- **Data Migration**: Automatic localStorage to cloud migration on login
+
+### Key Design Decisions
+1. **Offline-First**: App works without internet. Cloud sync is optional.
+2. **Privacy-Focused**: No tracking. Data stays local unless user opts for cloud.
+3. **Responsive Design**: Full mobile, tablet, and desktop support.
+4. **Dark Mode**: System-aware with manual toggle.
+5. **Accessibility**: ARIA labels, keyboard navigation, screen reader support.
+
+---
+
+## Data Models
+
+### Course
+```typescript
+interface Course {
+  id: string
+  title: string
+  instructor: string
+  links: string[]
+  topics: string[]
+  created_at: string
+  updated_at: string
+}
+```
+
+### Note
+```typescript
+interface Note {
+  id: string
+  course_id: string
+  question: string
+  answer: string
+  code_snippet: string | null
+  code_language: string
+  understanding_level: 1 | 2 | 3 | 4 | 5
+  flag: boolean
+  created_at: string
+  updated_at: string
+}
+```
+
+### DailyEntry
+```typescript
+interface DailyEntry {
+  id: string
+  date: string // YYYY-MM-DD format
+  study_time: number // minutes
+  mood: 1 | 2 | 3 | 4 | 5
+  notes: string
+  created_at: string
+  updated_at: string
+}
+```
+
+---
+
+## Understanding Level Scale
+
+| Level | Label | Description |
+|-------|-------|-------------|
+| 1 | Confused | No understanding, need to revisit from scratch |
+| 2 | Unclear | Partial understanding, major gaps exist |
+| 3 | Getting It | Basic understanding, can explain simply |
+| 4 | Clear | Good understanding, can apply in practice |
+| 5 | Crystal Clear | Expert level, can teach others |
+
+---
+
+## Mood Scale
+
+| Level | Emoji | Label |
+|-------|-------|-------|
+| 1 | 😢 | Terrible |
+| 2 | 😕 | Poor |
+| 3 | 😐 | Okay |
+| 4 | 😊 | Good |
+| 5 | 😄 | Excellent |
+
+---
+
+## API Endpoints (Internal)
+
+The application uses Next.js Server Actions for data mutations:
+- `createCourse` / `updateCourse` / `deleteCourse`
+- `createNote` / `updateNote` / `deleteNote`
+- `createDailyEntry` / `updateDailyEntry` / `deleteDailyEntry`
+- `migrateLocalStorageToSupabase`
+- `seedSupabaseData`
+
+---
+
+## Use Cases
+
+### For Students
+- Track multiple courses simultaneously
+- Create Q&A notes during lectures
+- Review flagged concepts before exams
+- Monitor study habits and mood patterns
+
+### For Developers
+- Document code snippets with syntax highlighting
+- Track learning progress across programming topics
+- Review technical concepts with spaced repetition
+
+### For Lifelong Learners
+- Organize self-paced courses from any platform
+- Build a personal knowledge base
+- Visualize learning consistency over time
+
+---
+
+## Privacy & Security
+
+- **No Analytics Tracking**: No third-party analytics or tracking scripts
+- **Local-First Storage**: All data stored in browser by default
+- **Optional Cloud Sync**: User explicitly chooses to enable cloud storage
+- **Row-Level Security**: Supabase RLS ensures users only access their own data
+- **No Data Selling**: User data is never shared or sold
+
+---
+
+## Open Source
+
+Rootly Notes is an open-source project. Contributions, bug reports, and feature requests are welcome.
+
+---
+
+## Summary
+
+Rootly Notes is a modern learning companion that respects user privacy while providing powerful tools for educational organization. Whether you're a student preparing for exams, a developer building your knowledge base, or a lifelong learner tracking courses, Rootly Notes adapts to your workflow.
+
+Key differentiators:
+1. Works offline with optional cloud sync
+2. Q&A note format optimized for retention
+3. Built-in spaced repetition review
+4. Visual analytics for learning patterns
+5. Privacy-first design with no tracking
+
+---
+
+*Last updated: January 2026*
