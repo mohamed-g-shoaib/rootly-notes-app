@@ -77,11 +77,11 @@ Open sourced under [Devloop](https://www.devloop.software/)
 
 | Category      | Technology                            |
 | ------------- | ------------------------------------- |
-| Framework     | Next.js 15 (App Router)               |
+| Framework     | Next.js 16 (App Router)               |
 | UI            | React 19, TypeScript, Tailwind CSS v4 |
 | Components    | shadcn/ui, Radix UI                   |
 | Charts        | Recharts                              |
-| Forms         | React Hook Form + Zod                 |
+| Forms         | React Hook Form + Zod v4              |
 | Notifications | Sonner                                |
 | Backend       | Supabase (PostgreSQL, Auth, RLS)      |
 | Icons         | Lucide React                          |
@@ -197,8 +197,8 @@ pnpm install
 # Copy environment variables
 cp .env.example .env.local
 
-# Start development server
-pnpm dev
+# Start development server (Turbopack enabled by default for Next.js 16)
+pnpm dev --turbopack
 ```
 
 ### Environment Variables
