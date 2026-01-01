@@ -132,6 +132,7 @@ function ChartTooltipContent({
       payload?: Record<string, unknown>;
       color?: string;
       fill?: string;
+      graphicalItemId?: string;
     }>;
     label?: string;
   }) {
@@ -153,7 +154,7 @@ function ChartTooltipContent({
     if (labelFormatter) {
       return (
         <div className={cn("font-medium", labelClassName)}>
-          {labelFormatter(value, payload)}
+          {labelFormatter(value, payload as any)}
         </div>
       );
     }
@@ -205,7 +206,7 @@ function ChartTooltipContent({
                 formatter(
                   item.value,
                   item.name,
-                  item,
+                  item as any,
                   index,
                   item.payload as never
                 )
