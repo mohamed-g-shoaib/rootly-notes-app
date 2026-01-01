@@ -1,9 +1,20 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import Link from "next/link"
-import { createClient } from "@/lib/supabase/server"
-import { Quote } from "lucide-react"
-import { BackToTopButton } from "@/components/back-to-top-button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { Quote } from "lucide-react";
+import { BackToTopButton } from "@/components/back-to-top-button";
 import {
   CoursesPreview,
   NotesPreview,
@@ -11,16 +22,17 @@ import {
   ReviewPreview,
   ChartsPreview,
   ThemesPreview,
-} from "@/components/feature-previews"
+} from "@/components/feature-previews";
 
 export default async function HomePage() {
-  const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  const hasSession = !!session
+  const supabase = await createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const hasSession = !!session;
   return (
     <div className="relative">
       <div className="pointer-events-none absolute inset-0 -z-10  [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
-        <div className="h-full w-full bg-[radial-gradient(circle_at_center,theme(colors.primary/35),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(0,0,0,0.16)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.16)_1px,transparent_1px)] bg-[size:60px_60px] dark:bg-[linear-gradient(0deg,rgba(255,255,255,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.18)_1px,transparent_1px)]" />
       </div>
       <section className="container mx-auto max-w-6xl px-4 py-16 md:py-20 text-center">
@@ -28,8 +40,9 @@ export default async function HomePage() {
           Master your learning journey
         </h1>
         <p className="text-xl text-muted-foreground mt-6 max-w-2xl mx-auto">
-          Add notes as question-answer pairs, add daily study sessions and mood, and stay consistent with charts that helps you move forward. Rootly turns
-          your study sessions into measurable growth.
+          Add notes as question-answer pairs, add daily study sessions and mood,
+          and stay consistent with charts that helps you move forward. Rootly
+          turns your study sessions into measurable growth.
         </p>
         <div className="mt-8 flex gap-4 justify-center">
           {hasSession ? (
@@ -67,9 +80,9 @@ export default async function HomePage() {
                 <Quote className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                 <div className="flex-1">
                   <blockquote className="text-lg font-medium italic leading-relaxed mb-2">
-                    "The expert in anything was once a beginner. The key is not to
-                    know everything, but to build a system that helps you learn
-                    consistently."
+                    "The expert in anything was once a beginner. The key is not
+                    to know everything, but to build a system that helps you
+                    learn consistently."
                   </blockquote>
                   <cite className="text-sm text-muted-foreground">
                     Rootly Learning Philosophy
@@ -82,7 +95,9 @@ export default async function HomePage() {
       </section>
 
       <section className="container mx-auto max-w-6xl px-4 py-12">
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-center">Features</h2>
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-center">
+          Features
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {

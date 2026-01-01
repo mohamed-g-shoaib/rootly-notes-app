@@ -8,10 +8,6 @@ export default function AboutPage() {
       <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24">
         {/* Hero with subtle spotlight */}
         <div className="relative">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 -top-24 h-64 bg-[radial-gradient(ellipse_at_center,theme(colors.primary/10),transparent_60%)] blur-2xl"
-          />
           <div className="flex flex-col items-center text-center gap-4 mb-10 md:mb-12">
             <div className="flex items-center justify-center">
               <RootlyLogo

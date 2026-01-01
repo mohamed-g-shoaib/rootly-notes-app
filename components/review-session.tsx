@@ -306,10 +306,6 @@ export function ReviewSession({ notes, onComplete }: ReviewSessionProps) {
   if (!isStarted) {
     return (
       <Card className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,theme(colors.primary/10),transparent_60%)]"
-        />
         <CardHeader>
           <CardTitle className="text-center">Ready to practice?</CardTitle>
         </CardHeader>
