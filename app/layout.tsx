@@ -31,21 +31,12 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       url: siteUrl,
       siteName: "Rootly Notes",
-      images: [
-        {
-          url: "/android-chrome-512x512.png",
-          width: 512,
-          height: 512,
-          alt: "Rootly logo",
-        },
-      ],
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/android-chrome-512x512.png"],
     },
     robots: {
       index: true,
@@ -102,6 +93,42 @@ html {
   --font-mono: ${GeistMono.variable};
 }
         `}</style>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Rootly Notes",
+              description:
+                "Your learning journey tracker - A modern web application for tracking courses, notes, and daily study progress.",
+              url:
+                process.env.NEXT_PUBLIC_SITE_URL ??
+                "https://rootly-notes-app.vercel.app",
+              applicationCategory: "EducationalApplication",
+              operatingSystem: "Web Browser",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+              featureList: [
+                "Course Management",
+                "Smart Notes with Q&A Format",
+                "Daily Study Tracking",
+                "Mood Logging",
+                "Visual Analytics",
+                "Spaced Repetition Review",
+                "Offline-First Storage",
+                "Optional Cloud Sync",
+              ],
+              author: {
+                "@type": "Organization",
+                name: "Rootly Notes",
+              },
+            }),
+          }}
+        />
       </head>
       <body suppressHydrationWarning={true}>
         <ThemeProvider
