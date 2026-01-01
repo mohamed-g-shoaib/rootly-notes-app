@@ -33,7 +33,7 @@ const moodLabels = {
 };
 
 const moodColors = {
-  1: "hsl(var(--destructive))", // red for terrible
+  1: "var(--destructive)", // red for terrible
   2: "hsl(25, 95%, 53%)", // orange for poor
   3: "hsl(45, 93%, 47%)", // yellow for okay
   4: "hsl(142, 76%, 36%)", // green for good
@@ -175,7 +175,7 @@ export function MoodChart({ data }: MoodChartProps) {
             color: "var(--chart-3)",
           },
         }}
-        className="h-[280px] w-full"
+        className="h-[280px] w-full min-h-[280px]"
       >
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
@@ -190,7 +190,7 @@ export function MoodChart({ data }: MoodChartProps) {
             />
             <ReferenceLine
               y={3}
-              stroke="hsl(var(--muted-foreground))"
+              stroke="var(--muted-foreground)"
               strokeDasharray="2 2"
               opacity={0.5}
             />
@@ -221,7 +221,7 @@ export function MoodChart({ data }: MoodChartProps) {
                 position: "insideLeft",
                 style: {
                   textAnchor: "middle",
-                  fill: "hsl(var(--muted-foreground))",
+                  fill: "var(--muted-foreground)",
                 },
               }}
             />
@@ -249,7 +249,7 @@ export function MoodChart({ data }: MoodChartProps) {
                 fill: "var(--color-mood)",
                 strokeWidth: 2,
                 r: 5,
-                stroke: "hsl(var(--background))",
+                stroke: "var(--background)",
               }}
               activeDot={{
                 r: 6,

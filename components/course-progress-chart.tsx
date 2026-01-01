@@ -111,7 +111,7 @@ export function CourseProgressChart({ data }: CourseProgressChartProps) {
             color: "var(--chart-4)",
           },
         }}
-        className="h-[280px] w-full"
+        className="h-[280px] w-full min-h-[280px]"
       >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
@@ -142,7 +142,7 @@ export function CourseProgressChart({ data }: CourseProgressChartProps) {
                 position: "insideLeft",
                 style: {
                   textAnchor: "middle",
-                  fill: "hsl(var(--muted-foreground))",
+                  fill: "var(--muted-foreground)",
                 },
               }}
             />

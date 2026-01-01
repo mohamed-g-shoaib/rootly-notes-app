@@ -140,7 +140,7 @@ export function StudyTimeChart({ data, accentColor }: StudyTimeChartProps) {
             color: accentColor ?? "var(--chart-2)",
           },
         }}
-        className="h-[280px] w-full"
+        className="h-[280px] w-full min-h-[280px]"
       >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
@@ -174,7 +174,7 @@ export function StudyTimeChart({ data, accentColor }: StudyTimeChartProps) {
                 position: "insideLeft",
                 style: {
                   textAnchor: "middle",
-                  fill: "hsl(var(--muted-foreground))",
+                  fill: "var(--muted-foreground)",
                 },
               }}
             />
