@@ -52,7 +52,7 @@ const editDailyEntrySchema = z.object({
       return Number.isNaN(n) ? undefined : n;
     }
     return v;
-  }, z.number({ required_error: "Study time is required" }).min(0, "Study time must be positive").max(1440, "Study time cannot exceed 24 hours")),
+  }, z.number({ error: "Study time is required" }).min(0, "Study time must be positive").max(1440, "Study time cannot exceed 24 hours")),
   mood: z.coerce.number().min(1).max(5),
   notes: z
     .string()
@@ -196,7 +196,7 @@ export function EditDailyEntryDialog({
                     onValueChange={(value) =>
                       field.onChange(Number.parseInt(value))
                     }
-                    value={field.value.toString()}
+                    value={String(field.value)}
                   >
                     <FormControl>
                       <SelectTrigger aria-label="Select mood">

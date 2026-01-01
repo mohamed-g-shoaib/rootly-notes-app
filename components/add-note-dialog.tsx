@@ -78,7 +78,7 @@ export function AddNoteDialog({ courses }: AddNoteDialogProps) {
   const { guardAction } = useEditingGuard();
   const { createNote } = useNoteMutations();
 
-  const form = useForm<NoteFormData>({
+  const form = useForm<z.input<typeof noteSchema>, any, NoteFormData>({
     resolver: zodResolver(noteSchema),
     defaultValues: {
       course_id: "",
@@ -277,7 +277,7 @@ export function AddNoteDialog({ courses }: AddNoteDialogProps) {
                       onValueChange={(value) =>
                         field.onChange(Number.parseInt(value))
                       }
-                      defaultValue={field.value.toString()}
+                      defaultValue={String(field.value)}
                     >
                       <FormControl>
                         <SelectTrigger aria-label="Select understanding level">

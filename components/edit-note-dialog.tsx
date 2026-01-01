@@ -80,7 +80,7 @@ export function EditNoteDialog({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { updateNote } = useNoteMutations();
 
-  const form = useForm<EditNoteFormData>({
+  const form = useForm<z.input<typeof editNoteSchema>, any, EditNoteFormData>({
     resolver: zodResolver(editNoteSchema),
     defaultValues: {
       question: note.question,
@@ -230,7 +230,7 @@ export function EditNoteDialog({
                       onValueChange={(value) =>
                         field.onChange(Number.parseInt(value))
                       }
-                      value={field.value.toString()}
+                      value={String(field.value)}
                     >
                       <FormControl>
                         <SelectTrigger aria-label="Select understanding level">
