@@ -14,7 +14,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "frame-ancestors 'self' https://www.devloop.software https://devloop.software",
+              "frame-ancestors 'self' https://www.devloop.software https://devloop.software http://localhost:*",
           },
         ],
       },
