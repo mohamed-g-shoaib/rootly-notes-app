@@ -1,10 +1,10 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function OverviewSkeleton() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
@@ -48,13 +48,13 @@ export function OverviewSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function NotesGridSkeleton() {
   return (
     <div className="notes-page min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
@@ -107,13 +107,13 @@ export function NotesGridSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function CoursesGridSkeleton() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
@@ -160,13 +160,13 @@ export function CoursesGridSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function DailyEntriesGridSkeleton() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
@@ -207,13 +207,13 @@ export function DailyEntriesGridSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function ReviewSkeleton() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
@@ -299,6 +299,5 @@ export function ReviewSkeleton() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
-

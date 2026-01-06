@@ -5,7 +5,7 @@ import { RootlyLogo } from "@/components/rootly-logo";
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <div className="container mx-auto px-4 py-16 md:py-24">
         {/* Hero with subtle spotlight */}
         <div className="relative">
           <div className="flex flex-col items-center text-center gap-4 mb-10 md:mb-12">

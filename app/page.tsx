@@ -35,7 +35,7 @@ export default async function HomePage() {
       <div className="pointer-events-none absolute inset-0 -z-10  [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
         <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(0,0,0,0.16)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.16)_1px,transparent_1px)] bg-[size:60px_60px] dark:bg-[linear-gradient(0deg,rgba(255,255,255,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.18)_1px,transparent_1px)]" />
       </div>
-      <section className="container mx-auto max-w-6xl px-4 py-16 md:py-20 text-center">
+      <section className="container mx-auto px-4 py-16 md:py-20 text-center">
         <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
           Master your learning journey
         </h1>
@@ -69,7 +69,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="container mx-auto max-w-6xl px-4 py-12">
+      <section className="container mx-auto px-4 py-12">
         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-center">
           Philosophy Behind
         </h2>
@@ -94,7 +94,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="container mx-auto max-w-6xl px-4 py-12">
+      <section className="container mx-auto px-4 py-12">
         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-center">
           Features
         </h2>
@@ -151,7 +151,7 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
-      <section className="container mx-auto max-w-6xl px-4 py-12">
+      <section className="container mx-auto px-4 py-12">
         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-center">FAQ</h2>
         <Accordion
           type="single"

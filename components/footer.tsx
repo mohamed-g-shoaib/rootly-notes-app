@@ -22,7 +22,7 @@ export function Footer() {
 
   return (
     <footer className="bg-background">
-      <div className="container mx-auto max-w-6xl px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         {/* Main Footer: Brand + Navigation */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
           <div className="flex flex-col gap-3 justify-between min-h-full">

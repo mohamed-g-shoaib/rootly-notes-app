@@ -130,7 +130,7 @@ html {
           <StorageModeProvider>
             <EditingProvider>
               <header className="sticky top-0 z-50 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-                <div className="container mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+                <div className="container mx-auto px-4 py-3 flex items-center justify-between">
                   <Link href="/" className="flex items-center gap-2 shrink-0">
                     <RootlyLogo size={32} className="text-foreground" />
                     <span className="font-semibold tracking-tight text-lg md:text-xl hidden sm:inline">

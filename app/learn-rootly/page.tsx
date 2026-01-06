@@ -1,13 +1,27 @@
-import type { Metadata } from "next"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { BookOpen, GraduationCap, Calendar, RefreshCw, Sparkles, ArrowRight } from "lucide-react"
+import type { Metadata } from "next";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import {
+  BookOpen,
+  GraduationCap,
+  Calendar,
+  RefreshCw,
+  Sparkles,
+  ArrowRight,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Learn Rootly",
-  description: "A quick visual guide to using Rootly Notes in four simple steps.",
-}
+  description:
+    "A quick visual guide to using Rootly Notes in four simple steps.",
+};
 
 export default function LearnRootlyPage() {
   const steps = [
@@ -39,11 +53,11 @@ export default function LearnRootlyPage() {
         "Use regular review to strengthen what matters. Turn knowledge into long-term memory with smart repetition.",
       icon: RefreshCw,
     },
-  ]
+  ];
 
   return (
     <main className="border-b">
-      <section className="container mx-auto max-w-6xl px-4 py-14 md:py-16">
+      <section className="container mx-auto px-4 py-14 md:py-16">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm text-muted-foreground">
             <Sparkles className="h-4 w-4" />
@@ -53,8 +67,8 @@ export default function LearnRootlyPage() {
             Learn Rootly in 4 clear steps
           </h1>
           <p className="mt-3 text-muted-foreground">
-            Learn the flow, stay in control, and make steady progress. Everything is designed to be simple,
-            balanced, and easy to use.
+            Learn the flow, stay in control, and make steady progress.
+            Everything is designed to be simple, balanced, and easy to use.
           </p>
         </div>
 
@@ -88,18 +102,23 @@ export default function LearnRootlyPage() {
               <span className="text-muted-foreground">Review</span>
             </div>
           </div>
-          <div className="mt-6"><Separator /></div>
+          <div className="mt-6">
+            <Separator />
+          </div>
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:mt-12 md:grid-cols-2">
           {steps.map((step) => {
-            const Icon = step.icon
+            const Icon = step.icon;
             return (
               <Card key={step.id} className="relative">
                 <CardHeader className="space-y-1">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Badge variant="secondary" className="rounded-full px-2.5 py-0.5">
+                      <Badge
+                        variant="secondary"
+                        className="rounded-full px-2.5 py-0.5"
+                      >
                         Step {step.id}
                       </Badge>
                       <Icon className="h-5 w-5 text-muted-foreground" />
@@ -134,14 +153,16 @@ export default function LearnRootlyPage() {
                     {step.id === 4 && (
                       <>
                         <li>Focus on high‑value notes during review.</li>
-                        <li>Revisit at increasing time periods (spaced effect).</li>
+                        <li>
+                          Revisit at increasing time periods (spaced effect).
+                        </li>
                         <li>Keep sessions short and frequent.</li>
                       </>
                     )}
                   </ul>
                 </CardContent>
               </Card>
-            )
+            );
           })}
         </div>
 
@@ -149,13 +170,19 @@ export default function LearnRootlyPage() {
           <Card>
             <CardHeader>
               <CardTitle>Principles</CardTitle>
-              <CardDescription>Small shifts that make a big difference</CardDescription>
+              <CardDescription>
+                Small shifts that make a big difference
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="list-inside list-disc text-sm text-muted-foreground">
                 <li>Keep layouts balanced for easy reading.</li>
-                <li>Write simple notes: one idea per note for better memory.</li>
-                <li>Prefer short, frequent sessions to keep making progress.</li>
+                <li>
+                  Write simple notes: one idea per note for better memory.
+                </li>
+                <li>
+                  Prefer short, frequent sessions to keep making progress.
+                </li>
               </ul>
             </CardContent>
           </Card>
@@ -176,6 +203,5 @@ export default function LearnRootlyPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }
-

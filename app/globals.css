@@ -154,7 +154,7 @@
 
 /* Global unified, theme-aware scrollbars */
 html {
-  scrollbar-gutter: stable both-edges;
+  scrollbar-gutter: stable;
 
   /* Default Light Mode Scrollbar Colors */
   --scrollbar-thumb: rgba(0, 0, 0, 0.8);
